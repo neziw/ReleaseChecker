@@ -53,7 +53,7 @@ publishing {
     publications {
         val publication = create<MavenPublication>("maven") {
             groupId = "${project.group}"
-            artifactId = "${project.name}"
+            artifactId = project.name
             version = "${project.version}"
         }
         project.shadow.component(publication)
