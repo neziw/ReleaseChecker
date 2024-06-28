@@ -69,7 +69,7 @@ public class ReleaseCheck {
             final StringBuilder stringBuilder = new StringBuilder();
             String line;
 
-            while ((line = bufferedReader.readLine())!= null) {
+            while ((line = bufferedReader.readLine()) != null) {
                 stringBuilder.append(line);
             }
 
@@ -81,7 +81,7 @@ public class ReleaseCheck {
     }
 
     public ReleaseData getLatestRelease() throws IOException {
-        if (this.releaseData!= null) {
+        if (this.releaseData != null) {
             return this.releaseData;
         }
 
@@ -98,7 +98,7 @@ public class ReleaseCheck {
             final StringBuilder stringBuilder = new StringBuilder();
             String line;
 
-            while ((line = bufferedReader.readLine())!= null) {
+            while ((line = bufferedReader.readLine()) != null) {
                 stringBuilder.append(line);
             }
 
