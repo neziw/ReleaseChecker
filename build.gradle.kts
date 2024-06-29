@@ -49,6 +49,10 @@ dependencies {
     implementation("com.google.code.gson:gson:2.11.0")
 }
 
+tasks.build {
+    dependsOn(tasks.shadowJar)
+}
+
 publishing {
     publications {
         val publication = create<MavenPublication>("maven") {
