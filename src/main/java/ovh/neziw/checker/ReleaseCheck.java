@@ -37,6 +37,7 @@ import ovh.neziw.checker.util.GsonUtil;
 
 public class ReleaseCheck {
 
+    private static final String BASE_URL = "https://api.github.com/repos/";
     private final String repositoryOwner;
     private final String repositoryName;
     private final String token;
@@ -56,7 +57,7 @@ public class ReleaseCheck {
             return this.repositoryData;
         }
 
-        final URL url = URI.create("https://api.github.com/repos/" + this.repositoryOwner + "/" + this.repositoryName).toURL();
+        final URL url = URI.create(BASE_URL + this.repositoryOwner + "/" + this.repositoryName).toURL();
         final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
         httpURLConnection.setRequestProperty("Accept", "application/json");
@@ -85,7 +86,7 @@ public class ReleaseCheck {
             return this.releaseData;
         }
 
-        final URL url = URI.create("https://api.github.com/repos/" + this.repositoryOwner + "/" + this.repositoryName + "/releases/latest").toURL();
+        final URL url = URI.create(BASE_URL + this.repositoryOwner + "/" + this.repositoryName + "/releases/latest").toURL();
         final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod("GET");
         httpURLConnection.setRequestProperty("Accept", "application/json");
