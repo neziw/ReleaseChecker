@@ -44,6 +44,9 @@ public final class GsonUtil {
             .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeDeserializer())
             .create();
 
+    private GsonUtil() {
+    }
+
     public static Gson getGson() {
         return GSON;
     }
