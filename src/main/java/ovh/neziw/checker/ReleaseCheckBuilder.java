@@ -27,7 +27,7 @@ public class ReleaseCheckBuilder {
 
     private String repositoryOwner;
     private String repositoryName;
-    private String token;
+    private String githubToken;
 
     public static ReleaseCheckBuilder builder() {
         return new ReleaseCheckBuilder();
@@ -55,12 +55,12 @@ public class ReleaseCheckBuilder {
         return this;
     }
 
-    public String getToken() {
-        return this.token;
+    public String getGithubToken() {
+        return this.githubToken;
     }
 
-    public ReleaseCheckBuilder setToken(final String token) {
-        this.token = token;
+    public ReleaseCheckBuilder setGithubToken(final String githubToken) {
+        this.githubToken = githubToken;
         return this;
     }
 }

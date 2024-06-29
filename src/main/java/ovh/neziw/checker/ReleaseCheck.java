@@ -40,14 +40,14 @@ public class ReleaseCheck {
     private static final String BASE_URL = "https://api.github.com/repos/";
     private final String repositoryOwner;
     private final String repositoryName;
-    private final String token;
+    private final String githubToken;
     private RepositoryData repositoryData;
     private ReleaseData releaseData;
 
     protected ReleaseCheck(final ReleaseCheckBuilder releaseCheckBuilder) {
         this.repositoryOwner = releaseCheckBuilder.getRepositoryOwner();
         this.repositoryName = releaseCheckBuilder.getRepositoryName();
-        this.token = releaseCheckBuilder.getToken();
+        this.githubToken = releaseCheckBuilder.getGithubToken();
         this.repositoryData = null;
         this.releaseData = null;
     }
@@ -62,8 +62,8 @@ public class ReleaseCheck {
         httpURLConnection.setRequestMethod("GET");
         httpURLConnection.setRequestProperty("Accept", "application/json");
 
-        if (this.token != null) {
-            httpURLConnection.setRequestProperty("Authorization", "Bearer " + this.token);
+        if (this.githubToken != null) {
+            httpURLConnection.setRequestProperty("Authorization", "Bearer " + this.githubToken);
         }
 
         try (final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()))) {
@@ -91,8 +91,8 @@ public class ReleaseCheck {
         httpURLConnection.setRequestMethod("GET");
         httpURLConnection.setRequestProperty("Accept", "application/json");
 
-        if (this.token != null) {
-            httpURLConnection.setRequestProperty("Authorization", "Bearer " + this.token);
+        if (this.githubToken != null) {
+            httpURLConnection.setRequestProperty("Authorization", "Bearer " + this.githubToken);
         }
 
         try (final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()))) {
