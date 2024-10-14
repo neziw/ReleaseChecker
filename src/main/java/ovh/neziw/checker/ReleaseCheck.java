@@ -87,15 +87,15 @@ public class ReleaseCheck {
         }
 
         final URL url = URI.create(BASE_URL + this.repositoryOwner + "/" + this.repositoryName + "/releases/latest").toURL();
-        final HttpsURLConnection httpURLConnection = (HttpsURLConnection) url.openConnection();
-        httpURLConnection.setRequestMethod("GET");
-        httpURLConnection.setRequestProperty("Accept", "application/json");
+        final HttpsURLConnection httpsURLConnection = (HttpsURLConnection) url.openConnection();
+        httpsURLConnection.setRequestMethod("GET");
+        httpsURLConnection.setRequestProperty("Accept", "application/json");
 
         if (this.githubToken != null) {
-            httpURLConnection.setRequestProperty("Authorization", "Bearer " + this.githubToken);
+            httpsURLConnection.setRequestProperty("Authorization", "Bearer " + this.githubToken);
         }
 
-        try (final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()))) {
+        try (final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpsURLConnection.getInputStream()))) {
             final StringBuilder stringBuilder = new StringBuilder();
             String line;
 
@@ -105,7 +105,7 @@ public class ReleaseCheck {
 
             this.releaseData = this.parseReleaseData(stringBuilder.toString());
         } finally {
-            httpURLConnection.disconnect();
+            httpsURLConnection.disconnect();
         }
         return this.releaseData;
     }
