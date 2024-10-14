@@ -127,13 +127,11 @@ public class ReleaseCheck {
     }
 
     private RepositoryData parseRepositoryData(final String responseBody) {
-        final JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
-        return GsonUtil.getGson().fromJson(jsonObject, RepositoryData.class);
+        return GsonUtil.getGson().fromJson(responseBody, RepositoryData.class);
     }
 
     private ReleaseData parseReleaseData(final String responseBody) {
-        final JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
-        return GsonUtil.getGson().fromJson(jsonObject, ReleaseData.class);
+        return GsonUtil.getGson().fromJson(responseBody, ReleaseData.class);
     }
 
     private String parseCleanVersionString(final String string) {
