@@ -126,12 +126,12 @@ public class ReleaseCheck {
         return parts.length < latestParts.length;
     }
 
-    private RepositoryData parseRepositoryData(final String responseBody) throws IOException {
+    private RepositoryData parseRepositoryData(final String responseBody) {
         final JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
         return GsonUtil.getGson().fromJson(jsonObject, RepositoryData.class);
     }
 
-    private ReleaseData parseReleaseData(final String responseBody) throws IOException {
+    private ReleaseData parseReleaseData(final String responseBody) {
         final JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
         return GsonUtil.getGson().fromJson(jsonObject, ReleaseData.class);
     }
