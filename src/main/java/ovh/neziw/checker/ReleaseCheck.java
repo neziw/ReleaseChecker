@@ -146,6 +146,17 @@ public class ReleaseCheck {
         return this.releaseDataList;
     }
 
+    public int getBehindCount(final String tagName) throws IOException {
+        int counter = 0;
+
+        for (final ReleaseData data : this.getReleaseDataList()) {
+            if (data.tagName().equals(tagName)) return counter;
+            counter++;
+        }
+
+        return -1;
+    }
+
     public boolean isNewerVersionAvailable(final String version) throws IOException {
         final String[] parts = version.split("\\.");
         final String[] latestParts = this.parseCleanVersionString(this.getLatestRelease().tagName()).split("\\.");
