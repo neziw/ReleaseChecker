@@ -1,24 +1,36 @@
 # ReleaseChecker
 
-Easy and lightweight GitHub release parser written in Java using Gson and HTTP Requests.
+Easy and lightweight GitHub release parser written in Java using Gson and HTTPS Requests.
 
 ### Example Usage:
 ```java
 // https://github.com/nats-io/nats.java
 final ReleaseCheck releaseCheck = ReleaseCheckBuilder.builder()
-        .setRepositoryOwner("nats-io")
-        .setRepositoryName("nats.java")
-        .build();
-
+    .setRepositoryOwner("nats-io")
+    .setRepositoryName("nats.java")
+    .build();
 
 System.out.println("Latest version: " + releaseCheck.getLatestRelease().tagName());
-System.out.println("Is newer version available: " + releaseCheck.isNewerVersionAvailable("2.18.1"));
+System.out.println("Is a newer version available: " + releaseCheck.isNewerVersionAvailable("2.20.1"));
+
+//You can also get all available releases using 'ReleaseCheck#getReleaseDataList()'
+
+final int behindCount = releaseCheck.getBehindCount("2.20.1");
+
+if (behindCount == -1) {
+    System.out.println("There is no such tag.");
+} else if (behindCount == 0) {
+    System.out.println("You are using the latest version.");
+} else {
+    System.out.println("Your version is " + behindCount + " versions behind the latest.");
+}
 ```
 
-**Output** (since 29/06/2024):
+**Output** (since 19/10/2024):
 ```
-Latest version: 2.19.0
-Is newer version available: true
+Latest version: 2.20.2
+Is a newer version available: true
+Your version is 1 versions behind the latest.
 ```
 
 ### Adding dependency

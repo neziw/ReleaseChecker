@@ -23,12 +23,16 @@
  */
 package ovh.neziw.checker;
 
+import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import javax.net.ssl.HttpsURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import javax.net.ssl.HttpsURLConnection;
 import ovh.neziw.checker.release.ReleaseData;
 import ovh.neziw.checker.repository.RepositoryData;
 import ovh.neziw.checker.util.GsonUtil;
@@ -39,6 +43,7 @@ public class ReleaseCheck {
     private final String repositoryOwner;
     private final String repositoryName;
     private final String githubToken;
+    private final List<ReleaseData> releaseDataList;
     private RepositoryData repositoryData;
     private ReleaseData releaseData;
 
@@ -46,6 +51,7 @@ public class ReleaseCheck {
         this.repositoryOwner = releaseCheckBuilder.getRepositoryOwner();
         this.repositoryName = releaseCheckBuilder.getRepositoryName();
         this.githubToken = releaseCheckBuilder.getGithubToken();
+        this.releaseDataList = new LinkedList<>();
         this.repositoryData = null;
         this.releaseData = null;
     }
@@ -79,6 +85,7 @@ public class ReleaseCheck {
         return this.repositoryData;
     }
 
+    //Można by użyć 'getReleaseDataList' i wyciagnac pierwszą wartość ale nie wiem czy zawsze bedzie to dzialac
     public ReleaseData getLatestRelease() throws IOException {
         if (this.releaseData != null) {
             return this.releaseData;
@@ -108,6 +115,37 @@ public class ReleaseCheck {
         return this.releaseData;
     }
 
+    public List<ReleaseData> getReleaseDataList() throws IOException {
+        if (!this.releaseDataList.isEmpty()) {
+            return this.releaseDataList;
+        }
+
+        final URL url = URI.create(BASE_URL + this.repositoryOwner + "/" + this.repositoryName + "/releases").toURL();
+        final HttpsURLConnection httpsURLConnection = (HttpsURLConnection) url.openConnection();
+        httpsURLConnection.setRequestMethod("GET");
+        httpsURLConnection.setRequestProperty("Accept", "application/json");
+
+        if (this.githubToken != null) {
+            httpsURLConnection.setRequestProperty("Authorization", "Bearer " + this.githubToken);
+        }
+
+        try (final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpsURLConnection.getInputStream()))) {
+            final StringBuilder stringBuilder = new StringBuilder();
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+
+            this.releaseDataList.clear();
+            this.releaseDataList.addAll(this.parseReleaseDataList(stringBuilder.toString()));
+        } finally {
+            httpsURLConnection.disconnect();
+        }
+
+        return this.releaseDataList;
+    }
+
     public boolean isNewerVersionAvailable(final String version) throws IOException {
         final String[] parts = version.split("\\.");
         final String[] latestParts = this.parseCleanVersionString(this.getLatestRelease().tagName()).split("\\.");
@@ -130,6 +168,17 @@ public class ReleaseCheck {
 
     private ReleaseData parseReleaseData(final String responseBody) {
         return GsonUtil.getGson().fromJson(responseBody, ReleaseData.class);
+    }
+
+
+    private List<ReleaseData> parseReleaseDataList(final String responseBody) {
+        final TypeToken<List<ReleaseData>> typeToken = new TypeToken<>() {
+        };
+
+        final List<ReleaseData> releases = GsonUtil.getGson().fromJson(responseBody, typeToken);
+        releases.sort(Comparator.comparing(ReleaseData::publishedAt).reversed());
+
+        return releases;
     }
 
     private String parseCleanVersionString(final String string) {
