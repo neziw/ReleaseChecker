@@ -84,8 +84,7 @@ public class ReleaseCheck {
         }
         return this.repositoryData;
     }
-
-    //Można by użyć 'getReleaseDataList' i wyciagnac pierwszą wartość ale nie wiem czy zawsze bedzie to dzialac
+    
     public ReleaseData getLatestRelease() throws IOException {
         if (this.releaseData != null) {
             return this.releaseData;
