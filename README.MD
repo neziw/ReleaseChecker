@@ -48,7 +48,7 @@ Your version is 1 versions behind the latest.
     <dependency>
         <groupId>ovh.neziw</groupId>
         <artifactId>ReleaseChecker</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
     </dependency>
 </dependencies>
 ```
@@ -62,7 +62,7 @@ repositories {
     }
 }
 
-implementation "ovh.neziw:ReleaseChecker:1.0.1"
+implementation "ovh.neziw:ReleaseChecker:1.0.2"
 ```
 
 ---
