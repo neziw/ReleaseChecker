@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "ovh.neziw"
-version = "1.0.1"
+version = "1.0.2"
 
 tasks.withType<JavaCompile> {
     options.compilerArgs = listOf("-Xlint:deprecation")
